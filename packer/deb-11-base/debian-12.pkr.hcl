@@ -61,7 +61,7 @@ source "vsphere-iso" "debian_12" {
     "locale=en_GB.UTF-8 ",
     "keymap=gb ",
     "hostname=${var.vm_name} ",
-    "domain=home.lan ",
+    "domain={replace domain}",
     "---<enter>",
     "initrd /install.amd/initrd.gz<enter>",
     "boot<enter>"
