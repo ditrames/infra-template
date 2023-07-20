@@ -65,19 +65,29 @@ resource "vsphere_virtual_machine" "vm" {
       firmware,
       clone[0].template_uuid,
       clone[0].customize,
-      pci_device_id
+      pci_device_id,
+      ept_rvi_mode,
+      hv_mode
     ]
   }
-  provisioner "local-exec" {
-    command = <<EOT
-          rm -rf /etc/ssh/sshhost*
-          dpkg-reconfigure openssh-server
-          rm -f /etc/machine-id /var/lib/dbus/machine-id
-          dbus-uuidgen --ensure=/etc/machine-id
-          dbus-uuidgen --ensure
-    EOT
-  }
+
 }
 
 
+
+# the ansible/ansible provider 1.1.0 is broken compile from main or if a later release use that
+
+# resource "ansible_playbook" "playbook" {
+#   playbook   = "// path to playbook //"
+#   replayable = false
+#   name       = var.vm_name
+
+#   # verbosity  = "2" # if need verbosity
+#   extra_vars = {
+#     ansible_host : vsphere_virtual_machine.vm.default_ip_address
+#     domain : var.vm_domain
+#     ansible_host_key_checking : "False"
+#     ansible_config : "// ../ansible.cfg //"
+#   }
+# }
 
